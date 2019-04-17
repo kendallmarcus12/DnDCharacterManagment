@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/parent_layout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello world"
+        android:id="@+id/name"
+        android:textColor="#000"
+        android:paddingTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        />
+
+    <TextView
+        android:id="@+id/proficiencies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_centerHorizontal="true"
+        android:text="Plus blah blah"
+        android:textStyle="italic" />
+</RelativeLayout>
