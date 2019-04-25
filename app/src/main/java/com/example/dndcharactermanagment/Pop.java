@@ -1,4 +1,4 @@
-package com.example.DnDCharacterManagment;
+package com.example.dndcharactermanagment;
 
 import android.app.Activity;
 import android.os.Bundle;

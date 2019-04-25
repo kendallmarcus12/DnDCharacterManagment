@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/parent_layout"
+    android:gravity="start">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="blah blah"
+        />
+
+    <Button
+        android:id="@+id/btn_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-1"
+        android:layout_toRightOf="@+id/tv_name"/>
+
+    <TextView
+        android:id="@+id/tv_ability_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/btn_minus"
+        android:text="10"/>
+
+    <Button
+    android:id="@+id/btn_plus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tv_ability_count"
+    android:text="+1"
+        />
+
+
+</RelativeLayout>

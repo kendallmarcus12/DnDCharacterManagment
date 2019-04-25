@@ -1,24 +1,16 @@
-package com.example.learningapp;
+package com.example.dndcharactermanagment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClassSelectionActivity extends AppCompatActivity {
     TextView titleText;
@@ -37,7 +29,7 @@ public class ClassSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_selection);
         titleText = findViewById(R.id.tv_title);
         titleText.setText(titleText.getText() + "Class");
-        mIntent = new Intent(this, MainActivity.class);
+        mIntent = new Intent(this, Ability_Scores.class);
         Log.d(TAG, "onCreate: started.");
 
         if(getIntent().hasExtra("character")){
@@ -56,9 +48,6 @@ public class ClassSelectionActivity extends AppCompatActivity {
 
         mNames = db.parseNames("classes");
         mProficencies = db.getSavingThrows();
-        for(String var : mProficencies){
-            Log.d(TAG, "fillNames: " + var);
-        }
         initRecyclerView();
 
     }

@@ -1,4 +1,4 @@
-package com.example.DnDCharacterManagment;
+package com.example.dndcharactermanagment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,9 +44,6 @@ public class RaceSelectionActivity extends AppCompatActivity {
 
         mNames = db.parseNames("races");
         mAbilities = db.parseAbilities("races");
-        for(String var : mAbilities){
-            Log.d(TAG, "fillNames: " + var);
-        }
         initRecyclerView();
 
     }

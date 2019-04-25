@@ -1,4 +1,4 @@
-package com.example.DnDCharacterManagment;
+package com.example.dndcharactermanagment;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
     //The Android's default system path of your application database.
-    private static String DB_PATH = "/data/data/com.example.learningapp/databases/";
+    private static String DB_PATH = "/data/data/com.example.dndcharactermanagment/databases/";
 
     private static String DB_NAME = "DnDDb.SQLITE";
 
@@ -155,6 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 labels.add(cursor.getString(0));
+                        //.replace("\"",""));
             } while (cursor.moveToNext());
         }
         Log.d("LABELS", "getAllLabels: finished labels");
@@ -183,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.d(TAG, "getSavingThrows: " + jsonArray.length());
                 String tmp = new String();
                 for(int i = 0; i < jsonArray.length(); i++) {
-                    tmp += jsonArray.getJSONObject(i).getString("name") + " +1 ";
+                    tmp += jsonArray.getJSONObject(i).getString("name") + " ";
                 }
                 result.add(tmp.trim());
             }while(cursor.moveToNext());
@@ -215,13 +217,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String tmp = new String();
                 for(int i = 0; i < jsonArray.length(); i++) {
                     if(jsonArray.getInt(i) != 0) {
-                        tmp += abilities[i].name() + " " + jsonArray.getInt(i) + " ";
+                        tmp += abilities[i].name() + "+" + jsonArray.getInt(i) + " ";
                     }
                 }
                 result.add(tmp.trim());
             }while(cursor.moveToNext());
         }
 
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return result;
+    }
+
+    public ArrayList<Integer> getRaceScores(String name){
+        ArrayList<Integer> result = new ArrayList<>();
+        String selectQuery = "SELECT name, ability_bonuses FROM races";
+        //"SELECT ability_bonuses FROM races WHERE name is '\"" + name +"\"'";
+        Log.d(TAG, "getRaceScores: " + selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                if(cursor.getString(0).equals(name)) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(cursor.getString(1));
+
+                        // Extract numbers from JSON array.
+                        for (int i = 0; i < jsonArray.length(); ++i) {
+                            result.add(jsonArray.optInt(i));
+                        }
+                        Log.d(TAG, "getRaceScores: " + result.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }while(cursor.moveToNext());
+        }
         // closing connection
         cursor.close();
         db.close();

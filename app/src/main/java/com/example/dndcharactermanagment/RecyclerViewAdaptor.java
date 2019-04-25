@@ -1,4 +1,4 @@
-package com.example.DnDCharacterManagment;
+package com.example.dndcharactermanagment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,9 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     private Context mContext;
     private Intent mNextIntent;
     private Character mCharacter;
+    private DatabaseHelper db;
+
+
 
     public RecyclerViewAdaptor(Context mContext, ArrayList<String> mNames, ArrayList<String> mProficiencies, Intent mIntent, Character mCharacter) {
         this.mNames = mNames;
@@ -31,6 +34,8 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         this.mNextIntent = mIntent;
         this.mClass = this.mContext.getClass();
         this.mCharacter = mCharacter;
+        this.db = new DatabaseHelper(mContext);
+
     }
 
     @NonNull
@@ -52,19 +57,21 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
             @Override
             public void onClick(View v) {
                 if(mClass == ClassSelectionActivity.class){
-                    Toast.makeText(mContext, "Clicked" + mNames.get(i), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Clicked " + mNames.get(i), Toast.LENGTH_SHORT).show();
                     mCharacter.setClass_type(mNames.get(i));
                 }
                 else if(mClass == RaceSelectionActivity.class){
                     Log.d(TAG, "onClick: " + mClass.toString());
-                    Toast.makeText(mContext, "Clicked" + mNames.get(i), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Clicked " + mNames.get(i), Toast.LENGTH_SHORT).show();
                     mCharacter.setRace(mNames.get(i));
+                    mCharacter.setAbility_scores(db.getRaceScores(mNames.get(i)));
+                    Log.d(TAG, "onClick: LALALALA    " + mCharacter.getAbility_scores().toString());
                 }
-                Log.d(TAG, "onClick: WENT OUTSIDE!!!!");
                 mNextIntent.putExtra("character", mCharacter);
                 mContext.startActivity(mNextIntent);
             }
         });
+
         viewHolder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -81,7 +88,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         return mNames.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    protected class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView name;
         TextView proficiencies;

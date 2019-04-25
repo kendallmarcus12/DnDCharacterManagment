@@ -1,14 +1,17 @@
-package com.example.DnDCharacterManagment;
+package com.example.dndcharactermanagment;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Character implements Parcelable {
     private String name;
-    private int[] ability_scores;
+    private ArrayList<Integer> ability_scores;
     private int level;
     private String race;
     private String class_type;
+    private String[] languages;
 
     public Character(){
 
@@ -22,11 +25,11 @@ public class Character implements Parcelable {
         this.name = name;
     }
 
-    public int[] getAbility_scores() {
+    public ArrayList<Integer> getAbility_scores() {
         return ability_scores;
     }
 
-    public void setAbility_scores(int[] ability_scores) {
+    public void setAbility_scores(ArrayList<Integer> ability_scores) {
         this.ability_scores = ability_scores;
     }
 
@@ -54,6 +57,14 @@ public class Character implements Parcelable {
         this.class_type = class_type;
     }
 
+    public String[] getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(String[] languages) {
+        this.languages = languages;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -62,7 +73,7 @@ public class Character implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeIntArray(ability_scores);
+        dest.writeList(ability_scores);
         dest.writeInt(level);
         dest.writeString(race);
         dest.writeString(class_type);
@@ -81,7 +92,7 @@ public class Character implements Parcelable {
     // example constructor that takes a Parcel and gives you an object populated with it's values
     private Character(Parcel in) {
         name = in.readString();
-        ability_scores = in.createIntArray();
+        ability_scores = in.readArrayList(null);
         level = in.readInt();
         race = in.readString();
         class_type = in.readString();
